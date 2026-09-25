@@ -72,7 +72,7 @@ public class State implements android.os.Parcelable {
     public String[] acceptMimes;
 
     /** Derived from local preferences */
-    public @ViewMode int derivedMode = MODE_GRID;
+    public @ViewMode int derivedMode = MODE_LIST;
 
     public boolean debugMode = false;
 

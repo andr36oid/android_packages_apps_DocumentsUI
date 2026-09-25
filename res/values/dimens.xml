@@ -39,13 +39,15 @@
     <dimen name="grid_item_margin">6dp</dimen>
     <dimen name="grid_padding_horiz">4dp</dimen>
     <dimen name="grid_padding_vert">4dp</dimen>
-    <dimen name="list_item_width">72dp</dimen>
-    <dimen name="list_item_height">72dp</dimen>
-    <dimen name="list_item_padding">16dp</dimen>
-    <dimen name="list_item_icon_padding">16dp</dimen>
-    <dimen name="breadcrumb_item_padding">8dp</dimen>
-    <dimen name="breadcrumb_item_height">36dp</dimen>
-    <dimen name="list_divider_inset">72dp</dimen>
+    <!-- Compact rows so a 480px tall handheld screen shows more than a handful of files. -->
+    <dimen name="list_item_width">60dp</dimen>
+    <dimen name="list_item_height">48dp</dimen>
+    <dimen name="list_item_padding">12dp</dimen>
+    <dimen name="list_item_icon_padding">8dp</dimen>
+    <dimen name="list_item_focus_bar_width">4dp</dimen>
+    <dimen name="breadcrumb_item_padding">6dp</dimen>
+    <dimen name="breadcrumb_item_height">32dp</dimen>
+    <dimen name="list_divider_inset">60dp</dimen>
     <dimen name="dir_elevation">8dp</dimen>
     <dimen name="drag_shadow_size">120dp</dimen>
     <dimen name="grid_item_elevation">2dp</dimen>
@@ -113,15 +115,29 @@
     <dimen name="search_bar_radius">8dp</dimen>
     <dimen name="search_bar_background_margin_start">0dp</dimen>
     <dimen name="search_bar_background_margin_end">0dp</dimen>
-    <dimen name="search_bar_margin">8dp</dimen>
+    <dimen name="search_bar_margin">0dp</dimen>
     <dimen name="search_bar_text_size">16dp</dimen>
     <dimen name="action_bar_size">48dp</dimen>
     <!--This value should equal actionBarSize + (2 x search_bar_margin)-->
-    <dimen name="action_bar_space_height">64dp</dimen>
-    <dimen name="action_bar_space_margin">@dimen/action_bar_space_height</dimen>
+    <dimen name="action_bar_space_height">@dimen/action_bar_size</dimen>
+    <!-- The header is stacked below the toolbar instead of scrolling underneath it. -->
+    <dimen name="action_bar_space_margin">0dp</dimen>
     <dimen name="action_mode_text_size">18sp</dimen>
 
     <dimen name="refresh_icon_range">64dp</dimen>
 
     <dimen name="item_doc_inflated_message_padding_top">0dp</dimen>
+    <dimen name="empty_state_artwork_margin">12dp</dimen>
+    <dimen name="empty_state_artwork_max_height">120dp</dimen>
+
+    <!-- Storage quick links and D-pad focus markers -->
+    <dimen name="quick_link_height">32dp</dimen>
+    <dimen name="quick_link_spacing">6dp</dimen>
+    <dimen name="quick_link_padding">12dp</dimen>
+    <dimen name="quick_link_radius">16dp</dimen>
+    <dimen name="quick_link_icon_size">18dp</dimen>
+    <dimen name="quick_link_icon_margin">6dp</dimen>
+    <dimen name="quick_link_max_title_width">200dp</dimen>
+    <dimen name="dpad_focus_stroke_width">2dp</dimen>
+    <dimen name="dpad_focus_radius">4dp</dimen>
 </resources>

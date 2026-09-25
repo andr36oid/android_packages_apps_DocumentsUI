@@ -540,4 +540,9 @@
     <!-- Snackbar shown when users drag and drop files from another app
     to DocumentsUI. [CHAR_LIMIT=100] -->
     <string name="drag_from_another_app">You can\u2019t move files from another app.</string>
+
+    <!-- Label of the list entry at the top of a folder that opens its parent folder. -->
+    <string name="parent_directory_title" translatable="false">..</string>
+    <!-- Accessibility description of the list entry that opens the parent folder. [CHAR_LIMIT=40] -->
+    <string name="parent_directory_description">Parent folder</string>
 </resources>

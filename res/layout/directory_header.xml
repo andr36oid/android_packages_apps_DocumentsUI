@@ -61,12 +61,14 @@
     <!-- used for apps row. -->
     <include layout="@layout/apps_row"/>
 
+    <!-- Hidden: the toolbar already names the location and the view is always a list. -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/root_info_header_horizontal_padding"
         android:layout_marginEnd="@dimen/root_info_header_horizontal_padding"
-        android:minHeight="@dimen/root_info_header_height">
+        android:minHeight="@dimen/root_info_header_height"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/header_title"

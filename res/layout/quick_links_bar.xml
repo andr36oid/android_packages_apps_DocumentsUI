@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<!-- One-press links to the storage devices (internal storage, SD cards, USB drives), so they
+     can be reached with a D-pad without opening the roots drawer. Filled by RootsFragment. -->
+<com.android.documentsui.sidebar.QuickLinksBar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/quick_links"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:overScrollMode="never"
+    android:scrollbars="none"
+    android:visibility="gone">
+
+    <LinearLayout
+        android:id="@+id/quick_links_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/quick_link_spacing"
+        android:paddingBottom="@dimen/quick_link_spacing"/>
+
+</com.android.documentsui.sidebar.QuickLinksBar>

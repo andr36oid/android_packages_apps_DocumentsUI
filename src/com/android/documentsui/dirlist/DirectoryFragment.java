@@ -47,6 +47,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import androidx.annotation.DimenRes;
@@ -445,10 +446,12 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
 
         mIconHelper = new IconHelper(mActivity, MODE_GRID, mState.supportsCrossProfile());
 
-        mAdapter = new DirectoryAddonsAdapter(
+        final DirectoryAddonsAdapter adapter = new DirectoryAddonsAdapter(
                 mAdapterEnv,
                 new ModelBackedDocumentsAdapter(mAdapterEnv, mIconHelper, mInjector.fileTypeLookup)
         );
+        adapter.setParentDirectoryAction(this::openParentDirectory);
+        mAdapter = adapter;
 
         mRecView.setAdapter(mAdapter);
 
@@ -577,6 +580,14 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
             LocalBroadcastManager.getInstance(mActivity).registerReceiver(mReceiver, filter);
         }
         getContext().registerReceiver(mSdCardBroadcastReceiver, getSdCardStateChangeFilter());
+
+        // Navigating somewhere new (launch, quick link, breadcrumb, opening a folder) should
+        // leave D-pad focus in the new list rather than on whatever header control or stale
+        // view happened to hold it. Text fields (search, file name) keep their focus.
+        if (!mRecView.isInTouchMode()
+                && !(mActivity.getCurrentFocus() instanceof EditText)) {
+            mRecView.requestFocus();
+        }
     }
 
     @Override
@@ -685,6 +696,17 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
     public void onViewModeChanged() {
         // Mode change is just visual change; no need to kick loader.
         onDisplayStateChanged();
+    }
+
+    /** Goes up one level, what the ".." row on top of the list does. */
+    private void openParentDirectory() {
+        if (mState.stack.size() <= 1) {
+            return;
+        }
+        mActionModeController.finishActionMode();
+        mRecView.stopScroll();
+        mState.stack.pop();
+        mActivity.refreshCurrentRootAndDirectory(AnimationView.ANIM_LEAVE);
     }
 
     private void onDisplayStateChanged() {
@@ -949,6 +971,11 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
     }
 
     private boolean onAccessibilityClick(View child) {
+        final DocumentHolder documentHolder = getDocumentHolder(child);
+        if (documentHolder != null && documentHolder.getItemDetails() == null) {
+            // Rows without a document behind them, like "..", handle clicks themselves.
+            return child.performClick();
+        }
         if (mSelectionMgr.hasSelection()) {
             selectItem(child);
         } else {
@@ -1230,7 +1257,12 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
             return;
         }
 
-        final View bar = mActivity.findViewById(R.id.collapsing_toolbar);
+        View bar = mActivity.findViewById(R.id.collapsing_toolbar);
+        if (bar == null) {
+            // Without a collapsing app bar only the save container can change the list
+            // padding, and it overlaps the list, so keep tracking it.
+            bar = mActivity.findViewById(R.id.container_save);
+        }
         if (bar != null) {
             bar.getViewTreeObserver().removeOnPreDrawListener(mToolbarPreDrawListener);
             if (enable) {
@@ -1415,6 +1447,14 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
             }
 
             if (!mModel.isLoading()) {
+                // The list itself holding focus means nothing in it is highlighted yet; put the
+                // D-pad focus on the first entry so it's visible right away.
+                final String[] modelIds = mModel.getModelIds();
+                if (mRecView.isFocused() && modelIds.length > 0
+                        && !mSelectionMgr.hasSelection()) {
+                    mFocusManager.focusDocument(modelIds[0]);
+                }
+
                 mActivity.notifyDirectoryLoaded(
                         mModel.doc != null ? mModel.doc.derivedUri : null);
                 // For orientation changed case, sometimes the docs loading comes after the menu

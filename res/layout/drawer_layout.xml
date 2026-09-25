@@ -28,29 +28,59 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
+        <!-- The header sits above the directory list instead of being a collapsing app bar
+             overlapping it. The collapsing bar only collapses on touch scrolling, so with a
+             D-pad the list stayed taller than the screen and its last items never came into
+             view. -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/colorBackground"
+                android:elevation="3dp"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?android:attr/actionBarSize"
+                    android:background="?android:attr/colorBackground"
+                    android:theme="?actionBarTheme"
+                    android:popupTheme="?actionBarPopupTheme"
+                    app:collapseContentDescription="@string/button_back"
+                    app:titleTextAppearance="@style/ToolbarTitle">
+
+                    <TextView
+                        android:id="@+id/searchbar_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="?android:attr/actionBarSize"
+                        android:gravity="center_vertical"
+                        android:text="@string/search_bar_hint"
+                        android:textAppearance="@style/SearchBarTitle"
+                        android:visibility="gone"/>
+
+                </androidx.appcompat.widget.Toolbar>
+
+                <include layout="@layout/quick_links_bar"/>
+
+                <include layout="@layout/directory_header"/>
+
+            </LinearLayout>
+
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_behavior="@string/scrolling_behavior">
+                android:layout_height="0dp"
+                android:layout_weight="1">
 
-                <LinearLayout
+                <FrameLayout
+                    android:id="@+id/container_directory"
+                    android:clipToPadding="false"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <FrameLayout
-                        android:id="@+id/container_directory"
-                        android:clipToPadding="false"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1" />
-
-                </LinearLayout>
+                    android:layout_height="match_parent" />
 
                 <FrameLayout
                     android:id="@+id/container_search_fragment"
@@ -65,19 +95,20 @@
                     android:background="@android:color/transparent"
                     android:layout_width="@dimen/drawer_edge_width"
                     android:layout_height="match_parent"/>
+
+                <!-- Overlaps the bottom of the list. DirectoryFragment pads the list by the
+                     height of this container, so its last item still scrolls above it. -->
+                <androidx.coordinatorlayout.widget.CoordinatorLayout
+                    android:id="@+id/container_save"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:background="?android:attr/colorBackgroundFloating"
+                    android:elevation="8dp" />
+
             </FrameLayout>
 
-            <androidx.coordinatorlayout.widget.CoordinatorLayout
-                android:id="@+id/container_save"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|center_horizontal"
-                android:background="?android:attr/colorBackgroundFloating"
-                android:elevation="8dp" />
-
-            <include layout="@layout/directory_app_bar"/>
-
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/drawer_roots"

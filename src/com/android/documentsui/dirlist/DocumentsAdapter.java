@@ -50,6 +50,7 @@ public abstract class DocumentsAdapter extends RecyclerView.Adapter<DocumentHold
     public static final int ITEM_TYPE_SECTION_BREAK = Integer.MAX_VALUE;
     public static final int ITEM_TYPE_HEADER_MESSAGE = Integer.MAX_VALUE - 1;
     public static final int ITEM_TYPE_INFLATED_MESSAGE = Integer.MAX_VALUE - 2;
+    public static final int ITEM_TYPE_PARENT_DIRECTORY = Integer.MAX_VALUE - 3;
 
     public abstract int getAdapterPosition(String modelId);
     public abstract String getStableId(int adapterPosition);

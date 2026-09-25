@@ -127,6 +127,7 @@ public class RootsFragment extends Fragment {
     private ActionHandler mActionHandler;
 
     private List<Item> mApplicationItemList;
+    private List<RootItem> mStorageItemList = new ArrayList<>();
 
     /**
      * Shows the {@link RootsFragment}.
@@ -312,6 +313,10 @@ public class RootsFragment extends Fragment {
 
                 mInjector.shortcutsUpdater.accept(roots);
                 mInjector.appsRowManager.updateList(mApplicationItemList);
+                final QuickLinksBar quickLinks = getQuickLinks();
+                if (quickLinks != null) {
+                    quickLinks.setRoots(mStorageItemList);
+                }
                 mInjector.appsRowManager.updateView(activity);
                 onCurrentRootChanged();
             }
@@ -320,6 +325,10 @@ public class RootsFragment extends Fragment {
             public void onLoaderReset(Loader<Collection<RootInfo>> loader) {
                 mAdapter = null;
                 mList.setAdapter(null);
+                final QuickLinksBar quickLinks = getQuickLinks();
+                if (quickLinks != null) {
+                    quickLinks.setRoots(Collections.emptyList());
+                }
             }
         };
     }
@@ -388,6 +397,7 @@ public class RootsFragment extends Fragment {
         final RootComparator comp = new RootComparator();
         Collections.sort(libraries, comp);
         Collections.sort(storageProviders, comp);
+        mStorageItemList = storageProviders;
 
         if (VERBOSE) Log.v(TAG, "Adding library roots: " + libraries);
         result.addAll(libraries);
@@ -551,11 +561,16 @@ public class RootsFragment extends Fragment {
     }
 
     public void onCurrentRootChanged() {
+        final RootInfo root = ((BaseActivity) getActivity()).getCurrentRoot();
+        final QuickLinksBar quickLinks = getQuickLinks();
+        if (quickLinks != null) {
+            quickLinks.setCurrentRoot(root);
+        }
+
         if (mAdapter == null) {
             return;
         }
 
-        final RootInfo root = ((BaseActivity) getActivity()).getCurrentRoot();
         for (int i = 0; i < mAdapter.getCount(); i++) {
             final Object item = mAdapter.getItem(i);
             if (item instanceof RootItem) {
@@ -586,6 +601,11 @@ public class RootsFragment extends Fragment {
 
     private BaseActivity getBaseActivity() {
         return (BaseActivity) getActivity();
+    }
+
+    /** The storage quick links above the directory list; not every layout has them. */
+    private @Nullable QuickLinksBar getQuickLinks() {
+        return getActivity() == null ? null : getActivity().findViewById(R.id.quick_links);
     }
 
     @Override

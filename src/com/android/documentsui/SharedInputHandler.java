@@ -84,11 +84,17 @@ public class SharedInputHandler {
                 // Instead of duplicating the switch-case in #isNavigationKeyCode, best just to
                 // leave it here.
                 if (Events.isNavigationKeyCode(keyCode)) {
+                    // Leave the keys to the framework's spatial focus search when focus is on
+                    // the toolbar, quick links, breadcrumb, drawer or a list message. Snapping
+                    // it back into the list would make those unreachable with a D-pad.
+                    if (mFocusManager.isFocusOutsideOfDocuments()) {
+                        return false;
+                    }
                     // Forward all unclaimed navigation keystrokes to the directory list.
                     // This causes any stray navigation keystrokes to focus the content pane,
-                    // which is probably what the user is trying to do.
-                    mFocusManager.focusDirectoryList();
-                    return true;
+                    // which is probably what the user is trying to do. If there is nothing to
+                    // focus in it, the framework moves the focus instead.
+                    return mFocusManager.focusDirectoryList();
                 }
                 return false;
         }

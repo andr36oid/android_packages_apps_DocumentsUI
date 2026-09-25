@@ -69,6 +69,7 @@ final class InputHandlers {
                     case DocumentsAdapter.ITEM_TYPE_HEADER_MESSAGE:
                     case DocumentsAdapter.ITEM_TYPE_INFLATED_MESSAGE:
                     case DocumentsAdapter.ITEM_TYPE_SECTION_BREAK:
+                    case DocumentsAdapter.ITEM_TYPE_PARENT_DIRECTORY:
                         return false;
                     case DocumentsAdapter.ITEM_TYPE_DOCUMENT:
                     case DocumentsAdapter.ITEM_TYPE_DIRECTORY:

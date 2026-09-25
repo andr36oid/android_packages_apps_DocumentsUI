@@ -165,7 +165,9 @@ public class NavigationViewManager {
                     ? mEnv.getCurrentRoot().title : mState.stack.getTitle();
             if (VERBOSE) Log.v(TAG, "New toolbar title is: " + title);
             mToolbar.setTitle(title);
-            mBreadcrumb.show(true);
+            // At the top of a root the breadcrumb would only repeat the toolbar title, so
+            // leave that row to the directory list.
+            mBreadcrumb.show(mState.stack.size() > 1);
             mBreadcrumb.postUpdate();
         }
     }

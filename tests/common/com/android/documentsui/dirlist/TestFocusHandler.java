@@ -59,6 +59,11 @@ public final class TestFocusHandler implements FocusHandler {
     }
 
     @Override
+    public boolean isFocusOutsideOfDocuments() {
+        return false;
+    }
+
+    @Override
     public int getFocusedPosition() {
         return focusPos;
     }

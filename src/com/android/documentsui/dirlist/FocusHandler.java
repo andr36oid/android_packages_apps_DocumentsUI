@@ -70,6 +70,14 @@ public interface FocusHandler extends View.OnFocusChangeListener {
     boolean hasFocusedItem();
 
     /**
+     * @return True if the focus is on something other than a document item or the directory list
+     *     itself, e.g. a toolbar button, a quick link, the breadcrumb or a message in the list.
+     *     Navigation keys those views don't consume should move the focus spatially instead of
+     *     snapping it back into the list.
+     */
+    boolean isFocusOutsideOfDocuments();
+
+    /**
      * If there is an item which has focus, the focus is removed.
      */
     void clearFocus();

@@ -18,6 +18,7 @@ package com.android.documentsui.dirlist;
 
 import android.view.ViewGroup;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView.AdapterDataObserver;
 
@@ -48,6 +49,9 @@ final class DirectoryAddonsAdapter extends DocumentsAdapter {
     private final Message mHeaderMessage;
     private final Message mInflateMessage;
 
+    private @Nullable Runnable mParentDirectoryAction;
+    private boolean mShowParentDirectory;
+
     DirectoryAddonsAdapter(Environment environment, DocumentsAdapter delegate) {
         mEnv = environment;
         mDelegate = delegate;
@@ -68,6 +72,14 @@ final class DirectoryAddonsAdapter extends DocumentsAdapter {
         return mModelUpdateListener;
     }
 
+    /**
+     * Puts a ".." row running the given action on top of the list. It only shows up below the
+     * top of a root and outside of search results.
+     */
+    void setParentDirectoryAction(@Nullable Runnable action) {
+        mParentDirectoryAction = action;
+    }
+
     @Override
     public GridLayoutManager.SpanSizeLookup createSpanSizeLookup() {
         return new GridLayoutManager.SpanSizeLookup() {
@@ -78,7 +90,8 @@ final class DirectoryAddonsAdapter extends DocumentsAdapter {
                 // grid rows whenever layout whitespace is encountered.
                 if (getItemViewType(position) == ITEM_TYPE_SECTION_BREAK
                         || getItemViewType(position) == ITEM_TYPE_HEADER_MESSAGE
-                        || getItemViewType(position) == ITEM_TYPE_INFLATED_MESSAGE) {
+                        || getItemViewType(position) == ITEM_TYPE_INFLATED_MESSAGE
+                        || getItemViewType(position) == ITEM_TYPE_PARENT_DIRECTORY) {
                     return columnCount;
                 } else if (mEnv.getDisplayState().isPhotoPicking()
                         && mEnv.getDisplayState().derivedMode == State.MODE_GRID) {
@@ -109,6 +122,10 @@ final class DirectoryAddonsAdapter extends DocumentsAdapter {
                 holder = new InflateMessageDocumentHolder(mEnv.getContext(), parent);
                 mEnv.initDocumentHolder(holder);
                 break;
+            case ITEM_TYPE_PARENT_DIRECTORY:
+                holder = new ParentDirectoryHolder(mEnv.getContext(), parent);
+                mEnv.initDocumentHolder(holder);
+                break;
             default:
                 holder = mDelegate.createViewHolder(parent, viewType);
         }
@@ -116,11 +133,33 @@ final class DirectoryAddonsAdapter extends DocumentsAdapter {
     }
 
     private void onDismissHeaderMessage() {
+        final int position = getHeaderMessagePosition();
         mHeaderMessage.reset();
         if (mBreakPosition > 0) {
             mBreakPosition--;
         }
-        notifyItemRemoved(0);
+        notifyItemRemoved(position);
+    }
+
+    private void onParentDirectoryClicked() {
+        if (mParentDirectoryAction != null) {
+            mParentDirectoryAction.run();
+        }
+    }
+
+    private boolean shouldShowParentDirectory() {
+        return mParentDirectoryAction != null
+                && mEnv.getDisplayState().stack.size() > 1
+                && !mEnv.isInSearchMode();
+    }
+
+    private int getHeaderMessagePosition() {
+        return mShowParentDirectory ? 1 : 0;
+    }
+
+    /** Rows above the documents: the ".." row and the header message. */
+    private int getTopAddonCount() {
+        return getHeaderMessagePosition() + (mHeaderMessage.shouldShow() ? 1 : 0);
     }
 
     @Override
@@ -136,6 +175,9 @@ final class DirectoryAddonsAdapter extends DocumentsAdapter {
                 break;
             case ITEM_TYPE_INFLATED_MESSAGE:
                 ((InflateMessageDocumentHolder) holder).bind(mInflateMessage);
+                break;
+            case ITEM_TYPE_PARENT_DIRECTORY:
+                ((ParentDirectoryHolder) holder).bind(this::onParentDirectoryClicked);
                 break;
             default:
                 mDelegate.onBindViewHolder(holder, toDelegatePosition(p), payload);
@@ -155,6 +197,9 @@ final class DirectoryAddonsAdapter extends DocumentsAdapter {
             case ITEM_TYPE_INFLATED_MESSAGE:
                 ((InflateMessageDocumentHolder) holder).bind(mInflateMessage);
                 break;
+            case ITEM_TYPE_PARENT_DIRECTORY:
+                ((ParentDirectoryHolder) holder).bind(this::onParentDirectoryClicked);
+                break;
             default:
                 mDelegate.onBindViewHolder(holder, toDelegatePosition(p));
                 break;
@@ -163,7 +208,7 @@ final class DirectoryAddonsAdapter extends DocumentsAdapter {
 
     @Override
     public int getItemCount() {
-        int addons = mHeaderMessage.shouldShow() ? 1 : 0;
+        int addons = getTopAddonCount();
         addons += mInflateMessage.shouldShow() ? 1 : 0;
         return mBreakPosition == -1
                 ? mDelegate.getItemCount() + addons
@@ -179,6 +224,7 @@ final class DirectoryAddonsAdapter extends DocumentsAdapter {
         mDelegate.getModelUpdateListener().accept(event);
 
         mBreakPosition = -1;
+        mShowParentDirectory = shouldShowParentDirectory();
         mInflateMessage.update(event);
         mHeaderMessage.update(event);
         // If there's any fatal error (exceptions), then no need to update the rest.
@@ -197,7 +243,7 @@ final class DirectoryAddonsAdapter extends DocumentsAdapter {
                 // If the break is the first thing in the list, then there are actually no
                 // directories. In that case, don't insert a break at all.
                 if (i > 0) {
-                    mBreakPosition = i + (mHeaderMessage.shouldShow() ? 1 : 0);
+                    mBreakPosition = i + getTopAddonCount();
                 }
                 break;
             }
@@ -206,7 +252,11 @@ final class DirectoryAddonsAdapter extends DocumentsAdapter {
 
     @Override
     public int getItemViewType(int p) {
-        if (p == 0 && mHeaderMessage.shouldShow()) {
+        if (p == 0 && mShowParentDirectory) {
+            return ITEM_TYPE_PARENT_DIRECTORY;
+        }
+
+        if (p == getHeaderMessagePosition() && mHeaderMessage.shouldShow()) {
             return ITEM_TYPE_HEADER_MESSAGE;
         }
 
@@ -229,7 +279,7 @@ final class DirectoryAddonsAdapter extends DocumentsAdapter {
      * @return Position within the delegate
      */
     private int toDelegatePosition(int p) {
-        int topOffset = mHeaderMessage.shouldShow() ? 1 : 0;
+        int topOffset = getTopAddonCount();
         return (mBreakPosition != -1 && p > mBreakPosition) ? p - 1 - topOffset : p - topOffset;
     }
 
@@ -241,7 +291,7 @@ final class DirectoryAddonsAdapter extends DocumentsAdapter {
      * @return Position within the view
      */
     private int toViewPosition(int p) {
-        int topOffset = mHeaderMessage.shouldShow() ? 1 : 0;
+        int topOffset = getTopAddonCount();
         // Offset it first so we can compare break position correctly
         p += topOffset;
         // If position is greater than or equal to the break, increase by one.
@@ -264,7 +314,7 @@ final class DirectoryAddonsAdapter extends DocumentsAdapter {
             return null;
         }
 
-        if (p == 0 && mHeaderMessage.shouldShow()) {
+        if (p < getTopAddonCount()) {
             return null;
         }
 

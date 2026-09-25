@@ -16,7 +16,18 @@
 
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_focused="true" >
-        <color android:color="?android:colorSecondary"/>
+        <layer-list>
+            <item>
+                <color android:color="?android:colorSecondary"/>
+            </item>
+            <!-- The pale fill alone is easy to miss on small handheld screens, so the
+                 D-pad focus also gets a bold bar. -->
+            <item
+                android:gravity="start"
+                android:width="@dimen/list_item_focus_bar_width">
+                <color android:color="?android:colorPrimary"/>
+            </item>
+        </layer-list>
     </item>
     <item android:state_selected="true">
         <color android:color="?android:colorSecondary"/>

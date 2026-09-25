@@ -53,7 +53,6 @@ import com.android.documentsui.R;
 import com.android.documentsui.SharedInputHandler;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Features;
-import com.android.documentsui.base.MimeTypes;
 import com.android.documentsui.base.RootInfo;
 import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.State;
@@ -337,14 +336,6 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
 
         if (mState.stack.isRecents()) {
             DirectoryFragment.showRecentsOpen(fm, anim);
-
-            // In recents we pick layout mode based on the mimetype,
-            // picking GRID for visual types. We intentionally don't
-            // consult a user's saved preferences here since they are
-            // set per root (not per root and per mimetype).
-            boolean visualMimes = MimeTypes.mimeMatches(
-                    MimeTypes.VISUAL_MIMES, mState.acceptMimes);
-            mState.derivedMode = visualMimes ? State.MODE_GRID : State.MODE_LIST;
         } else {
                 // Normal boring directory
                 DirectoryFragment.showDirectory(fm, root, cwd, anim);

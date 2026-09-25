@@ -129,7 +129,10 @@ public final class HorizontalBreadcrumb extends RecyclerView implements Breadcru
     private boolean onKey(View v, int keyCode, KeyEvent event) {
         switch (keyCode) {
             case KeyEvent.KEYCODE_ENTER:
-                return onAccessibilityClick(v);
+            case KeyEvent.KEYCODE_DPAD_CENTER:
+            case KeyEvent.KEYCODE_BUTTON_A:
+                // Only on key down: navigating may remove this crumb before the key goes up.
+                return event.getAction() == KeyEvent.ACTION_DOWN && onAccessibilityClick(v);
             default:
                 return false;
         }

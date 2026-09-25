@@ -25,6 +25,9 @@
     <item>
         <selector>
             <item
+                android:state_focused="true"
+                android:drawable="@drawable/dpad_focus_outline"/>
+            <item
                 app:state_highlighted="true"
                 android:drawable="@color/item_breadcrumb_background_hovered"/>
             <item

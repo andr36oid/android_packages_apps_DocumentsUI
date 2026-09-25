@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<!-- ".." row on top of a directory listing; same metrics as item_doc_list. -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="@dimen/list_item_height"
+    android:background="@drawable/list_item_background"
+    android:clickable="true"
+    android:focusable="true"
+    android:contentDescription="@string/parent_directory_description"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:layout_width="@dimen/list_item_width"
+        android:layout_height="@dimen/list_item_height"
+        android:paddingStart="@dimen/list_item_padding"
+        android:paddingEnd="16dp"
+        android:paddingTop="@dimen/list_item_icon_padding"
+        android:paddingBottom="@dimen/list_item_icon_padding"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_folder_up"
+        android:contentDescription="@null"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginEnd="@dimen/list_item_padding"
+        android:singleLine="true"
+        android:text="@string/parent_directory_title"
+        android:textAlignment="viewStart"
+        android:textAppearance="?android:attr/textAppearanceListItem"/>
+
+</LinearLayout>

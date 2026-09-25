@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="@dimen/quick_link_height"
+    android:layout_marginEnd="@dimen/quick_link_spacing"
+    android:paddingStart="@dimen/quick_link_padding"
+    android:paddingEnd="@dimen/quick_link_padding"
+    android:background="@drawable/quick_link_background"
+    android:clickable="true"
+    android:focusable="true"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@android:id/icon"
+        android:layout_width="@dimen/quick_link_icon_size"
+        android:layout_height="@dimen/quick_link_icon_size"
+        android:layout_marginEnd="@dimen/quick_link_icon_margin"
+        android:scaleType="centerInside"
+        android:contentDescription="@null"
+        android:duplicateParentState="true"/>
+
+    <TextView
+        android:id="@android:id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxWidth="@dimen/quick_link_max_title_width"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:textAppearance="@style/DrawerMenuPrimary"
+        android:duplicateParentState="true"/>
+
+</LinearLayout>

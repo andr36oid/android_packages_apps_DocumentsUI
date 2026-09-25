@@ -142,7 +142,9 @@ public final class FocusManager extends FocusDelegate<String> implements FocusHa
 
     @Override
     public boolean focusDirectoryList() {
-        if (!mScope.isValid() || mScope.adapter.getItemCount() == 0) {
+        // Count documents rather than adapter items: an empty directory still shows a
+        // message item, and parking the focus on that leaves the user stuck.
+        if (!mScope.isValid() || mScope.model.getItemCount() == 0) {
             if (DEBUG) {
                 Log.v(TAG, "Nothing to focus.");
             }
@@ -181,9 +183,10 @@ public final class FocusManager extends FocusDelegate<String> implements FocusHa
             return;
         }
 
-        int pos = mScope.adapter.getStableIds().indexOf(mScope.pendingFocusId);
-        if (pos != -1) {
-            focusItem(pos);
+        // Rows above the documents (".." and messages) have no stable ID, so the index in the
+        // stable IDs isn't the adapter position.
+        if (mScope.adapter.getStableIds().contains(mScope.pendingFocusId)) {
+            focusItem(mScope.adapter.getAdapterPosition(mScope.pendingFocusId));
         }
         mScope.pendingFocusId = null;
     }
@@ -229,6 +232,26 @@ public final class FocusManager extends FocusDelegate<String> implements FocusHa
     @Override
     public boolean hasFocusedItem() {
         return mScope.lastFocusPosition != RecyclerView.NO_POSITION;
+    }
+
+    @Override
+    public boolean isFocusOutsideOfDocuments() {
+        if (!mScope.isValid()) {
+            return true;
+        }
+
+        final View focused = mScope.view.getRootView().findFocus();
+        if (focused == null || focused == mScope.view) {
+            return false;
+        }
+
+        final RecyclerView.ViewHolder holder = mScope.view.findContainingViewHolder(focused);
+        if (holder == null) {
+            return true;
+        }
+        final int type = holder.getItemViewType();
+        return type != DocumentsAdapter.ITEM_TYPE_DOCUMENT
+                && type != DocumentsAdapter.ITEM_TYPE_DIRECTORY;
     }
 
     @Override
@@ -304,9 +327,15 @@ public final class FocusManager extends FocusDelegate<String> implements FocusHa
             // TargetView can be null, for example, if the user pressed <down> at the bottom
             // of the list.
             if (targetView != null) {
-                // Ignore navigation targets that aren't items in the RecyclerView.
+                // Items in the RecyclerView are focused by position.
                 if (targetView.getParent() == mScope.view) {
                     return mScope.view.getChildAdapterPosition(targetView);
+                }
+                // Anything else above or below (a button in a list message, the toolbar, quick
+                // links, breadcrumb or picker buttons) gets the focus directly. Otherwise a
+                // D-pad could never leave the list.
+                if (searchDir == View.FOCUS_UP || searchDir == View.FOCUS_DOWN) {
+                    targetView.requestFocus(searchDir);
                 }
             }
         }

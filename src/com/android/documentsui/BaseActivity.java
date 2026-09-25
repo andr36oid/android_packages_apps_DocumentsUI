@@ -18,7 +18,7 @@ package com.android.documentsui;
 
 import static com.android.documentsui.base.Shared.EXTRA_BENCHMARK;
 import static com.android.documentsui.base.SharedMinimal.DEBUG;
-import static com.android.documentsui.base.State.MODE_GRID;
+import static com.android.documentsui.base.State.MODE_LIST;
 
 import android.content.Context;
 import android.content.Intent;
@@ -71,6 +71,7 @@ import com.android.documentsui.queries.SearchFragment;
 import com.android.documentsui.queries.SearchViewManager;
 import com.android.documentsui.queries.SearchViewManager.SearchManagerListener;
 import com.android.documentsui.roots.ProvidersCache;
+import com.android.documentsui.sidebar.QuickLinksBar;
 import com.android.documentsui.sidebar.RootsFragment;
 import com.android.documentsui.sorting.SortController;
 import com.android.documentsui.sorting.SortModel;
@@ -600,7 +601,8 @@ public abstract class BaseActivity
             mSearchManager.setCurrentSearch(mSearchManager.getQueryContentFromIntent());
         }
 
-        mState.derivedMode = LocalPreferences.getViewMode(this, mState.stack.getRoot(), MODE_GRID);
+        // Tiles don't work on a small screen driven by a D-pad, so every root is a plain list.
+        mState.derivedMode = MODE_LIST;
 
         mNavigator.update();
 
@@ -874,6 +876,20 @@ public abstract class BaseActivity
         for (EventListener listener : mEventListeners) {
             listener.onDirectoryNavigated(uri);
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        // Controller shoulder buttons flip through the storage quick links.
+        if ((keyCode == KeyEvent.KEYCODE_BUTTON_L1 || keyCode == KeyEvent.KEYCODE_BUTTON_R1)
+                && event.getRepeatCount() == 0 && !mDrawer.isOpen()) {
+            final QuickLinksBar quickLinks = findViewById(R.id.quick_links);
+            if (quickLinks != null
+                    && quickLinks.openAdjacent(keyCode == KeyEvent.KEYCODE_BUTTON_R1 ? 1 : -1)) {
+                return true;
+            }
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override
