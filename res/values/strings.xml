@@ -40,6 +40,10 @@
     <string name="menu_list">List view</string>
     <!-- Menu item that enters a mode to search for documents [CHAR LIMIT=28] -->
     <string name="menu_search">Search</string>
+    <!-- Menu item that shows the file type filters (Images, Audio, Videos...) [CHAR LIMIT=30] -->
+    <string name="menu_show_filters">Show file type filters</string>
+    <!-- Menu item that hides the file type filters [CHAR LIMIT=30] -->
+    <string name="menu_hide_filters">Hide file type filters</string>
     <!-- Menu item that opens settings/options for a device (like an SD card). [CHAR LIMIT=28] -->
     <string name="menu_settings">Storage settings</string>
 

@@ -33,6 +33,13 @@
         android:visible="false"
         app:showAsAction="always|collapseActionView"
         app:actionViewClass="androidx.appcompat.widget.SearchView"/>
+    <!-- Opens the row of file type chips, which is folded away to save space -->
+    <item
+        android:id="@+id/option_menu_filter"
+        android:title="@string/menu_show_filters"
+        android:icon="@drawable/ic_menu_filter"
+        android:visible="false"
+        app:showAsAction="always"/>
 <!-- This group is being hidden when searching is in full bar mode-->
     <group android:id="@+id/group_hide_when_searching">
         <item

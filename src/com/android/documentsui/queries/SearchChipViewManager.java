@@ -85,6 +85,9 @@ public class SearchChipViewManager {
     private static final Map<Integer, SearchChipData> sDefaultChipItems = new HashMap<>();
 
     private final ViewGroup mChipGroup;
+    // The row folds away behind the filter button in the toolbar, see SearchViewManager.
+    private boolean mRowAvailable;
+    private boolean mRowExpanded;
     private final List<Integer> mDefaultChipTypes = new ArrayList<>();
     private SearchChipViewManagerListener mListener;
     private String[] mCurrentUpdateMimeTypes;
@@ -147,8 +150,27 @@ public class SearchChipViewManager {
      * @param show the value to show/hide the chips row.
      */
     public void setChipsRowVisible(boolean show) {
+        mRowAvailable = show;
+        updateRowVisibility();
+    }
+
+    /** Whether there is a choice of chips, so the row can be opened. */
+    public boolean canShowChipsRow() {
         // if there is only one matched chip, hide the chip group.
-        mChipGroup.setVisibility(show && mChipGroup.getChildCount() > 1 ? View.VISIBLE : View.GONE);
+        return mRowAvailable && mChipGroup.getChildCount() > 1;
+    }
+
+    public boolean isChipsRowExpanded() {
+        return mRowExpanded;
+    }
+
+    public void setChipsRowExpanded(boolean expanded) {
+        mRowExpanded = expanded;
+        updateRowVisibility();
+    }
+
+    private void updateRowVisibility() {
+        mChipGroup.setVisibility(canShowChipsRow() && mRowExpanded ? View.VISIBLE : View.GONE);
     }
 
     /**

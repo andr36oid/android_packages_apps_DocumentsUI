@@ -508,6 +508,10 @@ public abstract class BaseActivity
                 getInjector().actions.showCreateDirectoryDialog();
                 return true;
 
+            case R.id.option_menu_filter:
+                mSearchManager.toggleChipsRow();
+                return true;
+
             case R.id.option_menu_search:
                 // SearchViewManager listens for this directly.
                 return false;

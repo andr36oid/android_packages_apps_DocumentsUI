@@ -89,6 +89,7 @@ public class SearchViewManager implements
 
     private @Nullable Menu mMenu;
     private @Nullable MenuItem mMenuItem;
+    private @Nullable MenuItem mFilterItem;
     private @Nullable SearchView mSearchView;
     private @Nullable FragmentManager mFragmentManager;
 
@@ -131,6 +132,25 @@ public class SearchViewManager implements
     private void onChipCheckedStateChanged(View v) {
         mListener.onSearchChipStateChanged(v);
         performSearch(mCurrentSearch);
+        updateFilterItem();
+    }
+
+    /** Opens or closes the row of file type chips. */
+    public void toggleChipsRow() {
+        mChipViewManager.setChipsRowExpanded(!mChipViewManager.isChipsRowExpanded());
+        updateFilterItem();
+    }
+
+    /** The filter button stands in for the chips row, and is filled while a type is picked. */
+    private void updateFilterItem() {
+        if (mFilterItem == null) {
+            return;
+        }
+        mFilterItem.setVisible(mChipViewManager.canShowChipsRow());
+        mFilterItem.setIcon(mChipViewManager.hasCheckedItems()
+                ? R.drawable.ic_menu_filter_active : R.drawable.ic_menu_filter);
+        mFilterItem.setTitle(mChipViewManager.isChipsRowExpanded()
+                ? R.string.menu_hide_filters : R.string.menu_show_filters);
     }
 
     /**
@@ -220,6 +240,7 @@ public class SearchViewManager implements
     public void install(Menu menu, boolean isFullBarSearch, boolean isShowSearchBar) {
         mMenu = menu;
         mMenuItem = mMenu.findItem(R.id.option_menu_search);
+        mFilterItem = mMenu.findItem(R.id.option_menu_filter);
         mSearchView = (SearchView) mMenuItem.getActionView();
 
         mSearchView.setOnQueryTextListener(this);
@@ -323,6 +344,7 @@ public class SearchViewManager implements
         mMenuItem.setVisible(supportsSearch && (!stack.isRecents() || !mShowSearchBar));
 
         mChipViewManager.setChipsRowVisible(supportsSearch && root.supportsMimeTypesSearch());
+        updateFilterItem();
     }
 
     /**
@@ -422,6 +444,7 @@ public class SearchViewManager implements
         if (mCurrentSearch != null || mChipViewManager.hasCheckedItems()) {
             // Clear checked chips
             mChipViewManager.clearCheckedChips();
+            updateFilterItem();
             mCurrentSearch = null;
             mListener.onSearchChanged(mCurrentSearch);
         }
