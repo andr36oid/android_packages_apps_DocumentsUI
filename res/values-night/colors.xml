@@ -14,13 +14,14 @@
      limitations under the License.
 -->
 <resources>
-    <color name="app_background_color">#202124</color>
-    <color name="background_floating">#3C4043</color>
+    <!-- andr36oid: true black like the rest of the system -->
+    <color name="app_background_color">#000000</color>
+    <color name="background_floating">#1A1A1A</color>
     <color name="nav_bar_translucent">#52000000</color>
 
     <color name="primary">#8AB4F8</color>
     <color name="secondary">#3D8AB4F8</color>
-    <color name="hairline">#5F6368</color>
+    <color name="hairline">#333333</color>
 
     <color name="briefcase_icon_color">#669DF6</color> <!-- Blue 400 -->
     <color name="cross_profile_button_text_color">#669DF6</color> <!-- Blue 400 -->

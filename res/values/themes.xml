@@ -25,13 +25,14 @@
         <item name="android:actionModeBackground">?android:attr/colorBackground</item>
 
         <!-- Color section -->
-        <item name="android:colorAccent">@color/primary</item>
+        <!-- andr36oid: the accent picked in Settings (the device default accent), not a
+             fixed blue -->
         <item name="android:colorBackground">@android:color/white</item>
         <item name="android:colorBackgroundFloating">@color/background_floating</item>
         <item name="android:colorControlHighlight">@color/ripple_material_light</item>
-        <item name="android:colorControlActivated">@color/primary</item>
-        <item name="android:colorPrimary">@color/primary</item>
-        <item name="android:colorSecondary">@color/secondary</item>
+        <item name="android:colorControlActivated">?android:attr/colorAccent</item>
+        <item name="android:colorPrimary">?android:attr/colorAccent</item>
+        <item name="android:colorSecondary">@color/andr36oid_accent_tint</item>
         <item name="android:strokeColor">@color/hairline</item>
 
         <!-- System | Widget section -->
@@ -55,8 +56,8 @@
         <item name="windowActionModeOverlay">true</item>
 
         <!-- For material design widget, chips, buttons, not support attr-->
-        <item name="colorPrimary">@color/primary</item>
-        <item name="colorAccent">@color/primary</item>
+        <item name="colorPrimary">?android:attr/colorAccent</item>
+        <item name="colorAccent">?android:attr/colorAccent</item>
 
         <!-- TODO need to solve the error handle in GridItemThumbnail -->
         <item name="gridItemTint">@color/item_doc_grid_tint</item>

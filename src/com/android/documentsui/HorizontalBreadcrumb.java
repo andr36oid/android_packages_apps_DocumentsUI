@@ -28,6 +28,7 @@ import android.view.ViewGroup;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.documentsui.base.Shared;
 import com.android.documentsui.NavigationViewManager.Breadcrumb;
 import com.android.documentsui.NavigationViewManager.Environment;
 import com.android.documentsui.dirlist.AccessibilityEventRouter;
@@ -179,7 +180,7 @@ public final class HorizontalBreadcrumb extends RecyclerView implements Breadcru
         public void onBindViewHolder(BreadcrumbHolder holder, int position) {
             final int padding = (int) holder.itemView.getResources()
                     .getDimension(R.dimen.breadcrumb_item_padding);
-            final int enableColor = holder.itemView.getContext().getColor(R.color.primary);
+            final int enableColor = Shared.getAccentColor(holder.itemView.getContext());
             final boolean isFirst = position == 0;
             // Note that when isFirst is true, there might not be a DocumentInfo on the stack as it
             // could be an error state screen accessible from the root info.

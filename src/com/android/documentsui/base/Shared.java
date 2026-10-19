@@ -401,4 +401,13 @@ public final class Shared {
     private Shared() {
         throw new UnsupportedOperationException("provides static fields only");
     }
+
+    /** andr36oid: the accent picked in Settings, as the theme has it. */
+    public static int getAccentColor(Context context) {
+        final android.content.res.TypedArray a =
+                context.obtainStyledAttributes(new int[] {android.R.attr.colorAccent});
+        final int color = a.getColor(0, 0xff8ab4f8);
+        a.recycle();
+        return color;
+    }
 }

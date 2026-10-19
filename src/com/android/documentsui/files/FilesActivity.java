@@ -49,6 +49,7 @@ import com.android.documentsui.ProviderExecutor;
 import com.android.documentsui.R;
 import com.android.documentsui.SharedInputHandler;
 import com.android.documentsui.ShortcutsUpdater;
+import com.android.documentsui.base.Shared;
 import com.android.documentsui.base.DocumentInfo;
 import com.android.documentsui.base.Features;
 import com.android.documentsui.base.RootInfo;
@@ -111,7 +112,7 @@ public class FilesActivity extends BaseActivity implements AbstractActionHandler
                 mInjector.selectionMgr,
                 mDrawer,
                 this::focusSidebar,
-                getColor(R.color.primary));
+                Shared.getAccentColor(this));
 
         mInjector.menuManager = new MenuManager(
                 mInjector.features,

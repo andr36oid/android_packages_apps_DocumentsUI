@@ -109,7 +109,7 @@ public class PickActivity extends BaseActivity implements ActionHandler.Addons {
                 mInjector.selectionMgr,
                 mDrawer,
                 this::focusSidebar,
-                getColor(R.color.primary));
+                Shared.getAccentColor(this));
 
         mInjector.menuManager = new MenuManager(
                 mSearchManager,
