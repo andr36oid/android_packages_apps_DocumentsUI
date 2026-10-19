@@ -408,6 +408,11 @@ public class SearchViewManager implements
         }
     }
 
+    /** andr36oid: whether this location can be searched (Y); the search icon is hidden. */
+    public boolean canSearch() {
+        return mMenuItem != null && mMenuItem.isVisible();
+    }
+
     public void onSearchBarClicked() {
         if (mMenuItem == null) {
             return;

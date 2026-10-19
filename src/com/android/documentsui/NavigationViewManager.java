@@ -211,8 +211,9 @@ public class NavigationViewManager {
     }
 
     // Hamburger if drawer is present, else sad nullness.
+    // andr36oid: never; the drawer is gone, L1/R1 switch the storage location.
     private @Nullable Drawable getActionBarIcon() {
-        if (mDrawer.isPresent()) {
+        if (false) {
             return mToolbar.getContext().getDrawable(R.drawable.ic_hamburger);
         } else {
             return null;

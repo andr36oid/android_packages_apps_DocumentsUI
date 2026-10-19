@@ -82,6 +82,21 @@ final class InputHandlers {
 
             @Override
             public boolean onItemActivated(DocumentItemDetails item, KeyEvent e) {
+                // andr36oid: while something is selected, A adds or removes the focused item
+                // instead of opening it, so a controller can pick several
+                if (mSelectionHelper.hasSelection()
+                        && (e.getKeyCode() == KeyEvent.KEYCODE_BUTTON_A
+                                || e.getKeyCode() == KeyEvent.KEYCODE_DPAD_CENTER
+                                || e.getKeyCode() == KeyEvent.KEYCODE_ENTER)
+                        && item.getSelectionKey() != null
+                        && mSelectionPredicate.canSetStateForKey(item.getSelectionKey(), true)) {
+                    if (mSelectionHelper.isSelected(item.getSelectionKey())) {
+                        mSelectionHelper.deselect(item.getSelectionKey());
+                    } else {
+                        mSelectionHelper.select(item.getSelectionKey());
+                    }
+                    return true;
+                }
                 // Handle enter key events
                 switch (e.getKeyCode()) {
                     case KeyEvent.KEYCODE_ENTER:

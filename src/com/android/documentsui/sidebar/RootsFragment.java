@@ -397,7 +397,14 @@ public class RootsFragment extends Fragment {
         final RootComparator comp = new RootComparator();
         Collections.sort(libraries, comp);
         Collections.sort(storageProviders, comp);
-        mStorageItemList = storageProviders;
+        // andr36oid: the L1/R1 tabs: the storage devices, then Downloads (the drawer with the
+        // other libraries is gone)
+        mStorageItemList = new ArrayList<>(storageProviders);
+        for (RootItem library : libraries) {
+            if (library.root.isDownloads()) {
+                mStorageItemList.add(library);
+            }
+        }
 
         if (VERBOSE) Log.v(TAG, "Adding library roots: " + libraries);
         result.addAll(libraries);

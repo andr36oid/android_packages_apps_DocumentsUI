@@ -81,14 +81,19 @@ public final class KeyInputHandler extends KeyboardEventListener<DocumentItemDet
                 }
                 mSelectionHelper.extendRange(details.getPosition());
             } else {
+                // andr36oid: no shift on a controller: moving on keeps what was selected (with
+                // Select or the X menu), B or "Deselect all" clears it
                 mSelectionHelper.endRange();
-                mSelectionHelper.clearSelection();
             }
             return true;
         }
 
-        // we don't yet have a mechanism to handle opening/previewing multiple documents at once
-        if (mSelectionHelper.getSelection().size() > 1) {
+        // we don't yet have a mechanism to handle opening/previewing multiple documents at once.
+        // andr36oid: A still reaches onItemActivated, it adds to or removes from the selection.
+        if (mSelectionHelper.getSelection().size() > 1
+                && event.getKeyCode() != KeyEvent.KEYCODE_BUTTON_A
+                && event.getKeyCode() != KeyEvent.KEYCODE_DPAD_CENTER
+                && event.getKeyCode() != KeyEvent.KEYCODE_ENTER) {
             return false;
         }
 

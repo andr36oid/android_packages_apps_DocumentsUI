@@ -27,6 +27,9 @@ import java.util.Objects;
  * A row of one-press links to the storage roots (internal storage, SD cards, USB drives) shown
  * above the directory list, so they can be reached with a D-pad without opening the roots
  * drawer. The link of the root that is currently open is marked as activated.
+ *
+ * andr36oid: the links don't take the D-pad focus any more; they are tabs that L1/R1 switch
+ * (BaseActivity), the open one scrolled into view.
  */
 public final class QuickLinksBar extends HorizontalScrollView {
 
@@ -156,6 +159,19 @@ public final class QuickLinksBar extends HorizontalScrollView {
             if (current) {
                 mCurrentLink = link;
             }
+        }
+        if (mCurrentLink != null) {
+            final View link = mCurrentLink;
+            post(() -> {
+                // The open tab fully in view, with its neighbours peeking in when they fit
+                final int left = link.getLeft() - link.getWidth() / 2;
+                final int right = link.getRight() + link.getWidth() / 2 - getWidth();
+                if (getScrollX() > left) {
+                    smoothScrollTo(Math.max(0, left), 0);
+                } else if (getScrollX() < right) {
+                    smoothScrollTo(right, 0);
+                }
+            });
         }
     }
 }

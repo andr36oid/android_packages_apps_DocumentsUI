@@ -70,6 +70,13 @@ public class ActionModeController extends SelectionObserver<String>
     @Override
     public void onSelectionChanged() {
         mSelectionMgr.copySelection(mSelected);
+        if (mActivity instanceof BaseActivity) {
+            ((BaseActivity) mActivity).updateHintStatus();
+        }
+        if (noActionMode()) {
+            // andr36oid: no bar of selection buttons over the toolbar in Files; X has them
+            return;
+        }
         if (mSelected.size() > 0) {
             if (mActionMode == null) {
                 if (DEBUG) {
@@ -98,6 +105,11 @@ public class ActionModeController extends SelectionObserver<String>
             mActionMode.setTitle(title);
             mActivity.getWindow().setTitle(title);
         }
+    }
+
+    /** andr36oid: Files works without the action mode (see onSelectionChanged). */
+    private boolean noActionMode() {
+        return mActivity instanceof com.android.documentsui.files.FilesActivity;
     }
 
     @Override
@@ -192,6 +204,9 @@ public class ActionModeController extends SelectionObserver<String>
         if (mActionMode != null) {
             mActionMode.finish();
             mActionMode = null;
+        } else if (noActionMode()) {
+            // What ending the action mode would have done
+            mSelectionMgr.clearSelection();
         } else {
             Log.w(TAG, "Tried to finish a null action mode.");
         }

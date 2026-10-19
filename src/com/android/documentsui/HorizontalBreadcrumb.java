@@ -65,6 +65,9 @@ public final class HorizontalBreadcrumb extends RecyclerView implements Breadcru
             IntConsumer listener) {
 
         mClickListener = listener;
+        // andr36oid: shows where you are, nothing to press: B goes up a folder
+        setFocusable(false);
+        setDescendantFocusability(FOCUS_BLOCK_DESCENDANTS);
         mLayoutManager = new HorizontalBreadcrumbLinearLayoutManager(
                 getContext(), LinearLayoutManager.HORIZONTAL, false);
         mAdapter = new BreadcrumbAdapter(state, env, this::onKey);

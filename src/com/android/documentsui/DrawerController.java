@@ -168,6 +168,10 @@ public abstract class DrawerController implements DrawerListener {
         public void setOpen(boolean open) {
             View list = mDrawer.findViewById(R.id.roots_list);
             if (open) {
+                // andr36oid: the roots drawer never opens; L1/R1 switch the storage location
+                return;
+            }
+            if (open) {
                 mLayout.openDrawer(mDrawer);
                 if (list != null) {
                     mDrawer.requestFocus();

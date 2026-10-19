@@ -371,7 +371,29 @@ public class FilesActivity extends BaseActivity implements AbstractActionHandler
 
     @CallSuper
     @Override
+    protected boolean hasControllerMenu() {
+        return true;
+    }
+
+    @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
+        // andr36oid: X (and Start; the menu key: BaseActivity) opens the file menu, Select marks
+        // the focused item. Handled here, X would otherwise fall back to DEL (up a folder).
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_BUTTON_X:
+            case KeyEvent.KEYCODE_BUTTON_START:
+            case KeyEvent.KEYCODE_BUTTON_SELECT: {
+                final DirectoryFragment dir = getDirectoryFragment();
+                if (event.getRepeatCount() == 0 && dir != null) {
+                    if (keyCode == KeyEvent.KEYCODE_BUTTON_SELECT) {
+                        dir.toggleFocusedSelection();
+                    } else {
+                        dir.showControllerMenu();
+                    }
+                }
+                return true;
+            }
+        }
         return mActivityInputHandler.onKeyDown(keyCode, event)
                 || mSharedInputHandler.onKeyDown(keyCode, event)
                 || super.onKeyDown(keyCode, event);

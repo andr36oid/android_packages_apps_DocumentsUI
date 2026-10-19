@@ -42,6 +42,8 @@ import android.util.SparseArray;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
+import android.widget.PopupMenu;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -65,6 +67,8 @@ import androidx.recyclerview.selection.Selection;
 import androidx.recyclerview.selection.SelectionTracker;
 import androidx.recyclerview.selection.SelectionTracker.SelectionPredicate;
 import androidx.recyclerview.selection.StorageStrategy;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import java.util.ArrayList;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup;
 import androidx.recyclerview.widget.RecyclerView;
@@ -967,6 +971,137 @@ public class DirectoryFragment extends Fragment implements SwipeRefreshLayout.On
                     Log.d(TAG, "Unhandled menu item selected: " + item);
                 }
                 return false;
+        }
+    }
+
+    /**
+     * andr36oid: the console has no right click and no long press, so X opens what can be done
+     * with the focused file or folder (or the selection), and with the folder shown, as a plain
+     * list the d-pad and A/B work. The entries are the context menu's, run the same way.
+     */
+    public void showControllerMenu() {
+        if (getActivity() == null || mRecView == null) {
+            return;
+        }
+        final String focusedId = mFocusManager.hasFocusedItem()
+                ? mFocusManager.getFocusModelId() : null;
+        // The context menu acts on the selection: the focused item stands in for one
+        final boolean autoSelected = focusedId != null && !mSelectionMgr.hasSelection();
+        if (autoSelected) {
+            mSelectionMgr.select(focusedId);
+        }
+
+        final MenuInflater inflater = getActivity().getMenuInflater();
+        final Menu docs = new PopupMenu(getContext(), mRecView).getMenu();
+        final Menu here = new PopupMenu(getContext(), mRecView).getMenu();
+        try {
+            if (mSelectionMgr.hasSelection()) {
+                mInjector.menuManager.inflateContextMenuForDocs(docs, inflater, mSelectionMetadata);
+            }
+            mInjector.menuManager.inflateContextMenuForContainer(
+                    here, inflater, mSelectionMetadata);
+        } catch (UnsupportedOperationException e) {
+            // Pickers have no context menu
+            if (autoSelected) {
+                mSelectionMgr.clearSelection();
+            }
+            return;
+        }
+
+        final List<CharSequence> titles = new ArrayList<>();
+        final List<Runnable> actions = new ArrayList<>();
+        final boolean hasDocs = mSelectionMgr.hasSelection();
+        addMenuEntry(titles, actions, docs, R.id.dir_menu_open, 0);
+        addMenuEntry(titles, actions, docs, R.id.dir_menu_open_with, 0);
+        // Entries after which an item that only stood in for the selection stays selected
+        final List<Integer> keepSelection = new ArrayList<>();
+        if (focusedId != null) {
+            final boolean keep = autoSelected || !mSelectionMgr.isSelected(focusedId);
+            keepSelection.add(titles.size());
+            titles.add(getString(keep
+                    ? R.string.andr36oid_menu_select : R.string.andr36oid_menu_deselect));
+            actions.add(() -> {
+                if (keep) {
+                    mSelectionMgr.select(focusedId);
+                } else {
+                    mSelectionMgr.deselect(focusedId);
+                }
+            });
+        }
+        addMenuEntry(titles, actions, docs, R.id.dir_menu_copy_to_clipboard,
+                R.string.andr36oid_menu_copy);
+        addMenuEntry(titles, actions, docs, R.id.dir_menu_cut_to_clipboard,
+                R.string.andr36oid_menu_move);
+        addMenuEntry(titles, actions, docs, R.id.dir_menu_paste_into_folder, 0);
+        addMenuEntry(titles, actions, here, R.id.dir_menu_paste_from_clipboard,
+                R.string.andr36oid_menu_paste_here);
+        addMenuEntry(titles, actions, docs, R.id.dir_menu_rename, 0);
+        addMenuEntry(titles, actions, docs, R.id.dir_menu_delete, 0);
+        addMenuEntry(titles, actions, docs, R.id.dir_menu_share, 0);
+        addMenuEntry(titles, actions, here, R.id.dir_menu_create_dir, 0);
+        final int selectAll = titles.size();
+        addMenuEntry(titles, actions, here, R.id.dir_menu_select_all, 0);
+        if (titles.size() > selectAll) {
+            keepSelection.add(selectAll);
+        }
+        addMenuEntry(titles, actions, here, R.id.dir_menu_deselect_all, 0);
+        addMenuEntry(titles, actions, hasDocs ? docs : here, R.id.dir_menu_inspect,
+                R.string.andr36oid_menu_details);
+        titles.add(getString(R.string.andr36oid_menu_sort));
+        actions.add(mActions::showSortDialog);
+        titles.add(getString(mState.showHiddenFiles
+                ? R.string.andr36oid_menu_hide_hidden : R.string.andr36oid_menu_show_hidden));
+        actions.add(mActivity::toggleHiddenFiles);
+
+        final DocumentInfo focusedDoc = focusedId == null ? null : mModel.getDocument(focusedId);
+        final String title = focusedDoc != null ? focusedDoc.displayName
+                : mActivity.getCurrentDirectory() != null
+                        ? mActivity.getCurrentDirectory().displayName : null;
+        final boolean[] picked = {false};
+        new MaterialAlertDialogBuilder(getContext())
+                .setTitle(title)
+                .setItems(titles.toArray(new CharSequence[0]), (dialog, which) -> {
+                    picked[0] = true;
+                    actions.get(which).run();
+                    // Rename, delete and the others took what they act on already
+                    if (autoSelected && !keepSelection.contains(which)) {
+                        mSelectionMgr.clearSelection();
+                    }
+                    mActivity.updateHintStatus();
+                })
+                .setOnDismissListener(dialog -> {
+                    if (!picked[0] && autoSelected) {
+                        mSelectionMgr.clearSelection();
+                    }
+                    mActivity.updateHintStatus();
+                })
+                .show();
+    }
+
+    /** Adds the menu's item if the context menu would show it, under its own or our title. */
+    private void addMenuEntry(List<CharSequence> titles, List<Runnable> actions, Menu menu,
+            int id, int titleRes) {
+        final MenuItem item = menu.findItem(id);
+        if (item == null || !item.isVisible() || !item.isEnabled()) {
+            return;
+        }
+        titles.add(titleRes != 0 ? getString(titleRes) : item.getTitle());
+        actions.add(() -> handleMenuItemClick(item));
+    }
+
+    /** andr36oid: Select marks or unmarks the focused file or folder. */
+    public void toggleFocusedSelection() {
+        if (!mFocusManager.hasFocusedItem()) {
+            return;
+        }
+        final String id = mFocusManager.getFocusModelId();
+        if (id == null) {
+            return;
+        }
+        if (mSelectionMgr.isSelected(id)) {
+            mSelectionMgr.deselect(id);
+        } else {
+            mSelectionMgr.select(id);
         }
     }
 

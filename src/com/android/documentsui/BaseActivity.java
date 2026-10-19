@@ -153,6 +153,12 @@ public abstract class BaseActivity
         mInjector = getInjector();
         mState = getState(savedInstanceState);
         mDrawer = DrawerController.create(this, mInjector.config);
+        // andr36oid: no roots drawer; L1/R1 switch the storage location (QuickLinksBar)
+        mDrawer.setLocked(true);
+        if (!hasControllerMenu()) {
+            findViewById(R.id.andr36oid_hint_menu_key).setVisibility(View.GONE);
+            findViewById(R.id.andr36oid_hint_menu).setVisibility(View.GONE);
+        }
         Metrics.logActivityLaunch(mState, intent);
 
         mProviders = DocumentsApplication.getProvidersCache(this);
@@ -374,7 +380,63 @@ public abstract class BaseActivity
         mSearchManager.showMenu(mState.stack);
         final ActionMenuView subMenuView = findViewById(R.id.sub_menu);
         mInjector.menuManager.updateSubMenu(subMenuView.getMenu());
+        // After the subclasses have set up their items
+        findViewById(R.id.toolbar).post(this::hideToolbarButtons);
         return true;
+    }
+
+    /**
+     * andr36oid: the console is driven by its buttons (see the hint bar), so the toolbar keeps
+     * only the title and, while searching, the search field. Every action is in the X menu.
+     */
+    private void hideToolbarButtons() {
+        final Toolbar toolbar = findViewById(R.id.toolbar);
+        for (int i = 0; i < toolbar.getChildCount(); i++) {
+            final View child = toolbar.getChildAt(i);
+            if (child instanceof androidx.appcompat.widget.ActionMenuView) {
+                child.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    /** andr36oid: whether X opens the file menu here (not in the pickers of other apps). */
+    protected boolean hasControllerMenu() {
+        return false;
+    }
+
+    /** andr36oid: Y. */
+    public void openSearch() {
+        if (mSearchManager.canSearch()) {
+            mSearchManager.onSearchBarClicked();
+            mNavigator.update();
+        }
+    }
+
+    /** andr36oid: from the X menu. */
+    public void toggleHiddenFiles() {
+        onClickedShowHiddenFiles();
+    }
+
+    /**
+     * andr36oid: the left of the hint bar: how many items are selected, or that something
+     * copied or cut waits to be pasted.
+     */
+    public void updateHintStatus() {
+        final TextView status = findViewById(R.id.andr36oid_hint_status);
+        if (status == null) {
+            return;
+        }
+        final int selected = mInjector.selectionMgr == null
+                ? 0 : mInjector.selectionMgr.getSelection().size();
+        if (selected > 0) {
+            status.setText(getResources().getQuantityString(
+                    R.plurals.elements_selected, selected, selected));
+        } else if (hasControllerMenu()
+                && DocumentsApplication.getDocumentClipper(this).hasItemsToPaste()) {
+            status.setText(R.string.andr36oid_paste_ready);
+        } else {
+            status.setText(null);
+        }
     }
 
     @Override
@@ -450,7 +512,8 @@ public abstract class BaseActivity
 
     @Override
     public void setRootsDrawerLocked(boolean locked) {
-        mDrawer.setLocked(locked);
+        // andr36oid: the drawer stays closed, see onCreate
+        mDrawer.setLocked(true);
         mNavigator.update();
     }
 
@@ -631,6 +694,7 @@ public abstract class BaseActivity
         }
 
         invalidateOptionsMenu();
+        updateHintStatus();
         mSortController.onViewModeChanged(mState.derivedMode);
         mSearchManager.updateChips(getCurrentRoot().derivedMimeTypes);
         mAppsRowManager.updateView(this);
@@ -884,6 +948,13 @@ public abstract class BaseActivity
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BUTTON_Y) {
+            // andr36oid: as in Settings, Y searches (the hint bar says so)
+            if (event.getRepeatCount() == 0) {
+                openSearch();
+            }
+            return true;
+        }
         // Controller shoulder buttons flip through the storage quick links.
         if ((keyCode == KeyEvent.KEYCODE_BUTTON_L1 || keyCode == KeyEvent.KEYCODE_BUTTON_R1)
                 && event.getRepeatCount() == 0 && !mDrawer.isOpen()) {
@@ -903,6 +974,17 @@ public abstract class BaseActivity
         }
 
         DocumentsApplication.getDragAndDropManager(this).onKeyEvent(event);
+
+        // andr36oid: the menu key opens the file menu too. It has to be taken here: the
+        // toolbar's action bar would open its (hidden) overflow before onKeyDown.
+        if (event.getKeyCode() == KeyEvent.KEYCODE_MENU && hasControllerMenu()) {
+            final DirectoryFragment dir = getDirectoryFragment();
+            if (event.getAction() == KeyEvent.ACTION_DOWN && event.getRepeatCount() == 0
+                    && dir != null) {
+                dir.showControllerMenu();
+            }
+            return true;
+        }
 
         return super.dispatchKeyEvent(event);
     }
@@ -934,6 +1016,10 @@ public abstract class BaseActivity
     }
 
     protected boolean focusSidebar() {
+        // andr36oid: the sidebar is never shown
+        if (true) {
+            return false;
+        }
         RootsFragment rf = RootsFragment.get(getSupportFragmentManager());
         assert (rf != null);
         return rf.requestFocus();
