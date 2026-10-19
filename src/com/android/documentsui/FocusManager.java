@@ -257,9 +257,11 @@ public final class FocusManager extends FocusDelegate<String> implements FocusHa
     @Override
     public @Nullable String getFocusModelId() {
         if (mScope.lastFocusPosition != RecyclerView.NO_POSITION) {
-            DocumentHolder holder = (DocumentHolder) mScope.view
+            final RecyclerView.ViewHolder holder = mScope.view
                     .findViewHolderForAdapterPosition(mScope.lastFocusPosition);
-            return holder.getModelId();
+            // andr36oid: the X menu asks at any time; the row may be scrolled away or ".."
+            return holder instanceof DocumentHolder
+                    ? ((DocumentHolder) holder).getModelId() : null;
         }
         return null;
     }
