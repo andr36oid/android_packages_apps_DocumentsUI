@@ -28,7 +28,7 @@ import java.util.Objects;
  * above the directory list, so they can be reached with a D-pad without opening the roots
  * drawer. The link of the root that is currently open is marked as activated.
  *
- * andr36oid: the links don't take the D-pad focus any more; they are tabs that L1/R1 switch
+ * andr36oid: tabs that L1/R1 switch, also reachable with the D-pad
  * (BaseActivity), the open one scrolled into view.
  */
 public final class QuickLinksBar extends HorizontalScrollView {

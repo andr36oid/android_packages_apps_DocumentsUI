@@ -10,7 +10,7 @@
     android:paddingEnd="@dimen/quick_link_padding"
     android:background="@drawable/quick_link_background"
     android:clickable="true"
-    android:focusable="false"
+    android:focusable="true"
     android:gravity="center_vertical"
     android:orientation="horizontal">
 
