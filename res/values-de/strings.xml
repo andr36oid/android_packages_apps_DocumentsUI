@@ -278,4 +278,20 @@
     <string name="work_tab" msgid="7265359366883747413">"Geschäftlich"</string>
     <string name="a11y_work" msgid="7504431382825242153">"Aus Arbeitsprofil"</string>
     <string name="drag_from_another_app" msgid="8310249276199969905">"Du kannst keine Dateien aus einer anderen App verschieben."</string>
+    <!-- andr36oid -->
+    <string name="andr36oid_hint_open">Öffnen</string>
+    <string name="andr36oid_hint_back">Zurück</string>
+    <string name="andr36oid_hint_menu">Menü</string>
+    <string name="andr36oid_hint_search">Suchen</string>
+    <string name="andr36oid_hint_storage">Speicher</string>
+    <string name="andr36oid_paste_ready">Bereit zum Einfügen: Ordner öffnen, dann X › Hier einfügen</string>
+    <string name="andr36oid_menu_select">Auswählen</string>
+    <string name="andr36oid_menu_deselect">Auswahl aufheben</string>
+    <string name="andr36oid_menu_copy">Kopieren</string>
+    <string name="andr36oid_menu_move">Verschieben (ausschneiden)</string>
+    <string name="andr36oid_menu_paste_here">Hier einfügen</string>
+    <string name="andr36oid_menu_details">Details</string>
+    <string name="andr36oid_menu_sort">Sortieren nach…</string>
+    <string name="andr36oid_menu_show_hidden">Versteckte Dateien anzeigen</string>
+    <string name="andr36oid_menu_hide_hidden">Versteckte Dateien ausblenden</string>
 </resources>

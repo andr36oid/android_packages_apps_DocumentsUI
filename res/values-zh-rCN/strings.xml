@@ -278,4 +278,20 @@
     <string name="work_tab" msgid="7265359366883747413">"工作"</string>
     <string name="a11y_work" msgid="7504431382825242153">"工作"</string>
     <string name="drag_from_another_app" msgid="8310249276199969905">"您无法移动其他应用中的文件。"</string>
+    <!-- andr36oid -->
+    <string name="andr36oid_hint_open">打开</string>
+    <string name="andr36oid_hint_back">返回</string>
+    <string name="andr36oid_hint_menu">菜单</string>
+    <string name="andr36oid_hint_search">搜索</string>
+    <string name="andr36oid_hint_storage">存储</string>
+    <string name="andr36oid_paste_ready">准备粘贴：打开一个文件夹，然后按 X › 粘贴到此处</string>
+    <string name="andr36oid_menu_select">选择</string>
+    <string name="andr36oid_menu_deselect">取消选择</string>
+    <string name="andr36oid_menu_copy">复制</string>
+    <string name="andr36oid_menu_move">移动（剪切）</string>
+    <string name="andr36oid_menu_paste_here">粘贴到此处</string>
+    <string name="andr36oid_menu_details">详细信息</string>
+    <string name="andr36oid_menu_sort">排序方式…</string>
+    <string name="andr36oid_menu_show_hidden">显示隐藏文件</string>
+    <string name="andr36oid_menu_hide_hidden">不显示隐藏文件</string>
 </resources>

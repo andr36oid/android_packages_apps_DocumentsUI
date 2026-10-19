@@ -322,4 +322,20 @@
     <string name="work_tab" msgid="7265359366883747413">"Służbowe"</string>
     <string name="a11y_work" msgid="7504431382825242153">"Służbowy"</string>
     <string name="drag_from_another_app" msgid="8310249276199969905">"Nie można przenosić plików z innej aplikacji."</string>
+    <!-- andr36oid -->
+    <string name="andr36oid_hint_open">Otwórz</string>
+    <string name="andr36oid_hint_back">Wstecz</string>
+    <string name="andr36oid_hint_menu">Menu</string>
+    <string name="andr36oid_hint_search">Szukaj</string>
+    <string name="andr36oid_hint_storage">Pamięć</string>
+    <string name="andr36oid_paste_ready">Gotowe do wklejenia: otwórz folder, potem X › Wklej tutaj</string>
+    <string name="andr36oid_menu_select">Zaznacz</string>
+    <string name="andr36oid_menu_deselect">Odznacz</string>
+    <string name="andr36oid_menu_copy">Kopiuj</string>
+    <string name="andr36oid_menu_move">Przenieś (wytnij)</string>
+    <string name="andr36oid_menu_paste_here">Wklej tutaj</string>
+    <string name="andr36oid_menu_details">Szczegóły</string>
+    <string name="andr36oid_menu_sort">Sortuj według…</string>
+    <string name="andr36oid_menu_show_hidden">Pokaż ukryte pliki</string>
+    <string name="andr36oid_menu_hide_hidden">Ukryj ukryte pliki</string>
 </resources>

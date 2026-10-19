@@ -278,4 +278,20 @@
     <string name="work_tab" msgid="7265359366883747413">"Trabalho"</string>
     <string name="a11y_work" msgid="7504431382825242153">"Trabalho"</string>
     <string name="drag_from_another_app" msgid="8310249276199969905">"Não é possível mover arquivos de outro app."</string>
+    <!-- andr36oid -->
+    <string name="andr36oid_hint_open">Abrir</string>
+    <string name="andr36oid_hint_back">Voltar</string>
+    <string name="andr36oid_hint_menu">Menu</string>
+    <string name="andr36oid_hint_search">Pesquisar</string>
+    <string name="andr36oid_hint_storage">Armazenamento</string>
+    <string name="andr36oid_paste_ready">Pronto para colar: abra uma pasta e depois X › Colar aqui</string>
+    <string name="andr36oid_menu_select">Selecionar</string>
+    <string name="andr36oid_menu_deselect">Desmarcar</string>
+    <string name="andr36oid_menu_copy">Copiar</string>
+    <string name="andr36oid_menu_move">Mover (recortar)</string>
+    <string name="andr36oid_menu_paste_here">Colar aqui</string>
+    <string name="andr36oid_menu_details">Detalhes</string>
+    <string name="andr36oid_menu_sort">Ordenar por…</string>
+    <string name="andr36oid_menu_show_hidden">Mostrar arquivos ocultos</string>
+    <string name="andr36oid_menu_hide_hidden">Ocultar arquivos ocultos</string>
 </resources>

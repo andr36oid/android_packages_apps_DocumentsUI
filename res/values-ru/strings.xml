@@ -322,4 +322,20 @@
     <string name="work_tab" msgid="7265359366883747413">"Рабочее"</string>
     <string name="a11y_work" msgid="7504431382825242153">"Работа"</string>
     <string name="drag_from_another_app" msgid="8310249276199969905">"Перемещать файлы из другого приложения нельзя."</string>
+    <!-- andr36oid -->
+    <string name="andr36oid_hint_open">Открыть</string>
+    <string name="andr36oid_hint_back">Назад</string>
+    <string name="andr36oid_hint_menu">Меню</string>
+    <string name="andr36oid_hint_search">Поиск</string>
+    <string name="andr36oid_hint_storage">Память</string>
+    <string name="andr36oid_paste_ready">Готово к вставке: откройте папку, затем X › Вставить сюда</string>
+    <string name="andr36oid_menu_select">Выбрать</string>
+    <string name="andr36oid_menu_deselect">Снять выбор</string>
+    <string name="andr36oid_menu_copy">Копировать</string>
+    <string name="andr36oid_menu_move">Переместить (вырезать)</string>
+    <string name="andr36oid_menu_paste_here">Вставить сюда</string>
+    <string name="andr36oid_menu_details">Подробнее</string>
+    <string name="andr36oid_menu_sort">Сортировать по…</string>
+    <string name="andr36oid_menu_show_hidden">Показать скрытые файлы</string>
+    <string name="andr36oid_menu_hide_hidden">Скрыть скрытые файлы</string>
 </resources>

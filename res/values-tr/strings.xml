@@ -278,4 +278,20 @@
     <string name="work_tab" msgid="7265359366883747413">"İş"</string>
     <string name="a11y_work" msgid="7504431382825242153">"İş"</string>
     <string name="drag_from_another_app" msgid="8310249276199969905">"Başka bir uygulamadan dosya taşıyamazsınız."</string>
+    <!-- andr36oid -->
+    <string name="andr36oid_hint_open">Aç</string>
+    <string name="andr36oid_hint_back">Geri</string>
+    <string name="andr36oid_hint_menu">Menü</string>
+    <string name="andr36oid_hint_search">Ara</string>
+    <string name="andr36oid_hint_storage">Depolama</string>
+    <string name="andr36oid_paste_ready">Yapıştırmaya hazır: bir klasör açın, sonra X › Buraya yapıştır</string>
+    <string name="andr36oid_menu_select">Seç</string>
+    <string name="andr36oid_menu_deselect">Seçimi kaldır</string>
+    <string name="andr36oid_menu_copy">Kopyala</string>
+    <string name="andr36oid_menu_move">Taşı (kes)</string>
+    <string name="andr36oid_menu_paste_here">Buraya yapıştır</string>
+    <string name="andr36oid_menu_details">Ayrıntılar</string>
+    <string name="andr36oid_menu_sort">Şuna göre sırala…</string>
+    <string name="andr36oid_menu_show_hidden">Gizli dosyaları göster</string>
+    <string name="andr36oid_menu_hide_hidden">Gizli dosyaları gizle</string>
 </resources>

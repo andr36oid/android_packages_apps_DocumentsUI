@@ -278,4 +278,20 @@
     <string name="work_tab" msgid="7265359366883747413">"Professionnel"</string>
     <string name="a11y_work" msgid="7504431382825242153">"Travail"</string>
     <string name="drag_from_another_app" msgid="8310249276199969905">"Vous ne pouvez pas déplacer de fichiers depuis une autre application."</string>
+    <!-- andr36oid -->
+    <string name="andr36oid_hint_open">Ouvrir</string>
+    <string name="andr36oid_hint_back">Retour</string>
+    <string name="andr36oid_hint_menu">Menu</string>
+    <string name="andr36oid_hint_search">Rechercher</string>
+    <string name="andr36oid_hint_storage">Stockage</string>
+    <string name="andr36oid_paste_ready">Prêt à coller : ouvrez un dossier, puis X › Coller ici</string>
+    <string name="andr36oid_menu_select">Sélectionner</string>
+    <string name="andr36oid_menu_deselect">Désélectionner</string>
+    <string name="andr36oid_menu_copy">Copier</string>
+    <string name="andr36oid_menu_move">Déplacer (couper)</string>
+    <string name="andr36oid_menu_paste_here">Coller ici</string>
+    <string name="andr36oid_menu_details">Détails</string>
+    <string name="andr36oid_menu_sort">Trier par…</string>
+    <string name="andr36oid_menu_show_hidden">Afficher les fichiers masqués</string>
+    <string name="andr36oid_menu_hide_hidden">Masquer les fichiers masqués</string>
 </resources>

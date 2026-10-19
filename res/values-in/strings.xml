@@ -278,4 +278,20 @@
     <string name="work_tab" msgid="7265359366883747413">"Kerja"</string>
     <string name="a11y_work" msgid="7504431382825242153">"Kerja"</string>
     <string name="drag_from_another_app" msgid="8310249276199969905">"Anda tidak dapat memindahkan file ke aplikasi lain."</string>
+    <!-- andr36oid -->
+    <string name="andr36oid_hint_open">Buka</string>
+    <string name="andr36oid_hint_back">Kembali</string>
+    <string name="andr36oid_hint_menu">Menu</string>
+    <string name="andr36oid_hint_search">Cari</string>
+    <string name="andr36oid_hint_storage">Penyimpanan</string>
+    <string name="andr36oid_paste_ready">Siap ditempel: buka folder, lalu X › Tempel di sini</string>
+    <string name="andr36oid_menu_select">Pilih</string>
+    <string name="andr36oid_menu_deselect">Batalkan pilihan</string>
+    <string name="andr36oid_menu_copy">Salin</string>
+    <string name="andr36oid_menu_move">Pindahkan (potong)</string>
+    <string name="andr36oid_menu_paste_here">Tempel di sini</string>
+    <string name="andr36oid_menu_details">Detail</string>
+    <string name="andr36oid_menu_sort">Urutkan berdasarkan…</string>
+    <string name="andr36oid_menu_show_hidden">Tampilkan file tersembunyi</string>
+    <string name="andr36oid_menu_hide_hidden">Sembunyikan file tersembunyi</string>
 </resources>
