@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- andr36oid: the system accent, faint: fills the open storage location and selected rows -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:color="?android:attr/colorAccent" android:alpha="0.3"/>
+    <item android:color="@color/andr36oid_accent" android:alpha="0.3"/>
 </selector>
