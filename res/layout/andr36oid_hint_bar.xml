@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
+<!-- andr36oid: the controller buttons along the bottom, the same look as the hint bar of
+     Settings and the Quick start guide. The keys are handled by BaseActivity/FilesActivity. On
+     the left: how many items are selected. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/andr36oid_hint_bar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?android:attr/colorBackground"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingStart="16dp"
+    android:paddingEnd="8dp"
+    android:paddingTop="4dp"
+    android:paddingBottom="4dp">
+    <TextView
+        android:id="@+id/andr36oid_hint_status"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:textSize="12sp"
+        android:textColor="?android:attr/colorAccent" />
+    <TextView
+        style="@style/Andr36oidHintKey"
+        android:text="A" />
+    <TextView
+        style="@style/Andr36oidHintLabel"
+        android:text="@string/andr36oid_hint_open" />
+    <TextView
+        style="@style/Andr36oidHintKey"
+        android:text="B" />
+    <TextView
+        style="@style/Andr36oidHintLabel"
+        android:text="@string/andr36oid_hint_back" />
+    <TextView
+        android:id="@+id/andr36oid_hint_menu_key"
+        style="@style/Andr36oidHintKey"
+        android:text="X" />
+    <TextView
+        android:id="@+id/andr36oid_hint_menu"
+        style="@style/Andr36oidHintLabel"
+        android:text="@string/andr36oid_hint_menu" />
+    <TextView
+        style="@style/Andr36oidHintKey"
+        android:text="Y" />
+    <TextView
+        style="@style/Andr36oidHintLabel"
+        android:text="@string/andr36oid_hint_search" />
+    <TextView
+        android:id="@+id/andr36oid_hint_storage_key"
+        style="@style/Andr36oidHintKey"
+        android:text="L1 R1" />
+    <TextView
+        android:id="@+id/andr36oid_hint_storage"
+        style="@style/Andr36oidHintLabel"
+        android:text="@string/andr36oid_hint_storage" />
+</LinearLayout>

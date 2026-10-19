@@ -108,6 +108,8 @@
 
             </FrameLayout>
 
+            <include layout="@layout/andr36oid_hint_bar"/>
+
         </LinearLayout>
 
         <LinearLayout

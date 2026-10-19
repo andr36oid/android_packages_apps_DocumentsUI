@@ -549,4 +549,24 @@
     <string name="parent_directory_title" translatable="false">..</string>
     <!-- Accessibility description of the list entry that opens the parent folder. [CHAR_LIMIT=40] -->
     <string name="parent_directory_description">Parent folder</string>
+
+    <!-- andr36oid: the controller hint bar along the bottom. [CHAR_LIMIT=12] -->
+    <string name="andr36oid_hint_open">Open</string>
+    <string name="andr36oid_hint_back">Back</string>
+    <string name="andr36oid_hint_menu">Menu</string>
+    <string name="andr36oid_hint_search">Search</string>
+    <!-- L1/R1 switch between the storage locations (internal storage, SD card, ...) -->
+    <string name="andr36oid_hint_storage">Storage</string>
+    <!-- Hint bar, left: something was copied or cut and can be pasted -->
+    <string name="andr36oid_paste_ready">Ready to paste: open a folder, then X › Paste here</string>
+    <!-- andr36oid: entries of the menu X opens on a file or folder -->
+    <string name="andr36oid_menu_select">Select</string>
+    <string name="andr36oid_menu_deselect">Deselect</string>
+    <string name="andr36oid_menu_copy">Copy</string>
+    <string name="andr36oid_menu_move">Move (cut)</string>
+    <string name="andr36oid_menu_paste_here">Paste here</string>
+    <string name="andr36oid_menu_details">Details</string>
+    <string name="andr36oid_menu_sort">Sort by…</string>
+    <string name="andr36oid_menu_show_hidden">Show hidden files</string>
+    <string name="andr36oid_menu_hide_hidden">Hide hidden files</string>
 </resources>
