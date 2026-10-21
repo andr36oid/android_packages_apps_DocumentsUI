@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="andr36oid_hint_back">戻る</string>
+    <string name="andr36oid_hint_menu">メニュー</string>
+    <string name="andr36oid_hint_open">開く</string>
+    <string name="andr36oid_hint_search">検索</string>
+    <string name="andr36oid_hint_storage">ストレージ</string>
+    <string name="andr36oid_menu_copy">コピー</string>
+    <string name="andr36oid_menu_deselect">選択を解除</string>
+    <string name="andr36oid_menu_details">詳細</string>
+    <string name="andr36oid_menu_hide_hidden">隠しファイルを非表示</string>
+    <string name="andr36oid_menu_move">移動（切り取り）</string>
+    <string name="andr36oid_menu_paste_here">ここに貼り付け</string>
+    <string name="andr36oid_menu_select">選択</string>
+    <string name="andr36oid_menu_show_hidden">隠しファイルを表示</string>
+    <string name="andr36oid_menu_sort">並べ替え…</string>
+    <string name="andr36oid_paste_ready">貼り付けの準備ができました: フォルダーを開いて、X › ここに貼り付け</string>
+</resources>
