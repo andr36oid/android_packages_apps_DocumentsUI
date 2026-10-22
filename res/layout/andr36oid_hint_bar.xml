@@ -22,7 +22,7 @@
         android:ellipsize="end"
         android:textSize="14sp"
         android:textStyle="bold"
-        android:textColor="#e6e6e6" />
+        android:textColor="?android:attr/textColorPrimary" />
     <TextView
         style="@style/Andr36oidHintKey"
         android:text="A" />
